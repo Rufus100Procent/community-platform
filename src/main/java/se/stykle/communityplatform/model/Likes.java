@@ -1,4 +1,4 @@
-package se.stykle.communityplatform;
+package se.stykle.communityplatform.model;
 
 import java.time.OffsetDateTime;
 

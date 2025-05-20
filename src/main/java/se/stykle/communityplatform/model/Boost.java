@@ -1,4 +1,4 @@
-package se.stykle.communityplatform;
+package se.stykle.communityplatform.model;
 
 public class Boost {
     private Long id;

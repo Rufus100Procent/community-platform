@@ -1,4 +1,6 @@
-package se.stykle.communityplatform;
+package se.stykle.communityplatform.model;
+
+import se.stykle.communityplatform.utils.Role;
 
 import java.time.OffsetDateTime;
 
