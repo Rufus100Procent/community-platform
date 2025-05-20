@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [serverStatus, setServerStatus] = useState('loading');
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const fetchServerStatus = async () => {
+        try {
+            const res = await fetch('http://localhost:8080/actuator/health');
+            const data = await res.json();
+            setServerStatus(data.status === 'UP' ? 'up' : 'down');
+        } catch {
+            setServerStatus('down');
+        }
+    };
+
+    useEffect(() => {
+        fetchServerStatus();
+        const interval = setInterval(fetchServerStatus, 30000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <>
+            <nav className="navbar">
+                <div className="nav-brand">Community Platform</div>
+                <div className="nav-menu">
+                    <a href="#">Dashboard</a>
+                    <a href="#">Community</a>
+                    <a href="#">Explore Jobs</a>
+                    <a href="#">Profile</a>
+                    <div className={`status-icon ${serverStatus}`}>
+            <span className="status-tooltip">
+              {serverStatus === 'loading' ? 'Checking...' : `Server is ${serverStatus.toUpperCase()}`}
+            </span>
+                    </div>
+                </div>
+            </nav>
+
+            <main className="container">
+                <h2>Welcome to the Community Platform</h2>
+                <p>Connect, share, and explore new opportunities.</p>
+            </main>
+        </>
+    );
 }
 
-export default App
+export default App;
