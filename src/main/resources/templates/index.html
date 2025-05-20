@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Community Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --background-color: #f4f7f9;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --text-color: #333;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 1.2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-color);
+        }
+
+        .status-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 1.2rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .status-icon.up {
+            background-color: var(--success-color);
+        }
+
+        .status-icon.down {
+            background-color: var(--error-color);
+        }
+
+        .status-tooltip {
+            position: absolute;
+            top: -35px;
+            right: -10px;
+            padding: 5px 10px;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            visibility: hidden;
+            white-space: nowrap;
+            z-index: 100;
+        }
+
+        .status-icon:hover .status-tooltip {
+            visibility: visible;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="nav-brand">Community Platform</div>
+    <div class="nav-menu">
+        <a href="#">Dashboard</a>
+        <a href="#">Community</a>
+        <a href="#">Explore Jobs</a>
+        <a href="#">Profile</a>
+        <div id="server-status" class="status-icon">
+            <div class="status-tooltip">Checking server status...</div>
+        </div>
+    </div>
+</nav>
+
+<main>
+    <h2>Welcome to the Community Platform</h2>
+    <p>Connect, share, and explore new opportunities.</p>
+</main>
+
+<script>
+    const statusEl = document.getElementById('server-status');
+    const tooltipEl = statusEl.querySelector('.status-tooltip');
+
+    async function fetchServerStatus() {
+        try {
+            const response = await fetch('http://localhost:8080/actuator/health');
+            const { status } = await response.json();
+
+            if (response.ok && status === 'UP') {
+                statusEl.classList.remove('down');
+                statusEl.classList.add('up');
+                tooltipEl.textContent = 'Server is UP';
+            } else {
+                throw new Error('Server down');
+            }
+        } catch (error) {
+            statusEl.classList.remove('up');
+            statusEl.classList.add('down');
+            tooltipEl.textContent = 'Server is DOWN';
+        }
+    }
+
+    fetchServerStatus();
+
+    // Check server every 30 seconds
+    setInterval(fetchServerStatus, 30000);
+</script>
+
+</body>
+
+</html>
