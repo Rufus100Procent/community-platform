@@ -1,4 +1,4 @@
-package se.stykle.communityplatform.model;
+package se.stykle.communityplatform.security.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

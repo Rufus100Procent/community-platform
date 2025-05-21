@@ -1,5 +1,7 @@
 package se.stykle.communityplatform.model;
 
+import se.stykle.communityplatform.security.model.Users;
+
 import java.time.OffsetDateTime;
 
 public class Likes {

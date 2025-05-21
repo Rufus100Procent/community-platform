@@ -4,9 +4,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import se.stykle.communityplatform.model.Users;
-import se.stykle.communityplatform.model.UserPrincipal;
-import se.stykle.communityplatform.repository.UserRepo;
+import se.stykle.communityplatform.security.model.Users;
+import se.stykle.communityplatform.security.model.UserPrincipal;
+import se.stykle.communityplatform.security.repository.UserRepo;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {

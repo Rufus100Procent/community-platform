@@ -1,4 +1,4 @@
-package se.stykle.communityplatform.model;
+package se.stykle.communityplatform.security.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
